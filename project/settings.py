@@ -3,17 +3,17 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'checkpoint.devman.org',
-        'PORT': '5434',
-        'NAME': 'checkpoint',
-        'USER': 'guard',
-        'PASSWORD': 'osim5',
+        'HOST': os.getenv('PGSQL_HOST'),
+        'PORT': os.getenv('PGSQL_PORT'),
+        'NAME': os.getenv('PGSQL_DBNAME'),
+        'USER': os.getenv('PGSQL_USER'),
+        'PASSWORD': os.getenv('PGSQL_PWD'),
     }
 }
 
 INSTALLED_APPS = ['datacenter']
 
-SECRET_KEY = 'redmrdor'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 DEBUG = True
 
