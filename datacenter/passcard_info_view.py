@@ -1,12 +1,15 @@
-from datacenter.models import Passcard
-from datacenter.models import Visit
-from django.shortcuts import render
+from django.shortcuts import Http404, render
 
+from .models import Passcard, Visit
 from .models import is_visit_long, get_duration, format_duration
 
 
 def passcard_info_view(request, passcode):
-    passcard = Passcard.objects.get(passcode=passcode)
+    try:
+        passcard = Passcard.objects.get(passcode=passcode)
+    except Passcard.DoesNotExist:
+        raise Http404('Passcode not found')
+
     this_passcard_visits = []
     visits = Visit.objects.filter(passcard=passcard)
 
