@@ -13,6 +13,9 @@ class Passcard(models.Model):
             return self.owner_name
         return f'{self.owner_name} (inactive)'
 
+    class Meta:
+        ordering = ('owner_name',)
+
 
 class Visit(models.Model):
     created_at = models.DateTimeField(auto_now=True)
