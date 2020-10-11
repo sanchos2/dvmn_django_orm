@@ -1,7 +1,7 @@
 from django.shortcuts import Http404, render
 
 from .models import Passcard, Visit
-from .models import is_visit_long, get_duration, format_duration
+from .models import is_visit_long, format_duration
 
 
 def passcard_info_view(request, passcode):
@@ -14,7 +14,7 @@ def passcard_info_view(request, passcode):
     visits = Visit.objects.filter(passcard=passcard)
 
     for visit in visits:
-        duration = get_duration(visit)
+        duration = visit.get_duration()
         formated_duration = format_duration(duration)
         this_passcard_visits.append(
             {

@@ -3,19 +3,19 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': os.getenv('PGSQL_HOST'),
-        'PORT': os.getenv('PGSQL_PORT'),
-        'NAME': os.getenv('PGSQL_DBNAME'),
-        'USER': os.getenv('PGSQL_USER'),
-        'PASSWORD': os.getenv('PGSQL_PWD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+        'NAME': os.getenv('DB_DBNAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
     }
 }
 
 INSTALLED_APPS = ['datacenter']
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ROOT_URLCONF = "project.urls"
 
