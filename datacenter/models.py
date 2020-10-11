@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.utils import timezone
 
@@ -30,28 +31,25 @@ class Visit(models.Model):
             leaved= "leaved at " + str(self.leaved_at) if self.leaved_at else "not leaved"
         )
 
-
-def get_duration(visit):
-    entered_at = timezone.localtime(visit.entered_at)
-    if not visit.leaved_at:
-        leaved_at = timezone.localtime()
-    else:
-        leaved_at = timezone.localtime(visit.leaved_at)
-    delta = leaved_at - entered_at
-    return delta
+    def get_duration(self):
+        entered_at = timezone.localtime(self.entered_at)
+        if not self.leaved_at:
+            leaved_at = timezone.localtime()
+        else:
+            leaved_at = timezone.localtime(self.leaved_at)
+        delta = leaved_at - entered_at
+        total_seconds = delta.total_seconds()
+        return total_seconds
 
 
 def is_visit_long(visit, minutes=60):
-    duration = get_duration(visit)
-    duration_minutes = duration.total_seconds() // 60
-    if duration_minutes >= minutes:
-        return True
-    return False
+    duration = visit.get_duration()
+    duration_minutes = duration // 60
+    return duration_minutes >= minutes
 
 
 def format_duration(duration):
-    seconds = duration.total_seconds()
-    hour = seconds // 3600
-    min = seconds % 3600 // 60
-    sec = seconds % 3600 % 60
-    return f'{hour:.0f}:{min:.0f}:{sec:.0f}'
+    hour = str(int(duration // 3600))
+    minutes = str(int(duration % 3600 // 60))
+    seconds = str(int(duration % 3600 % 60))
+    return f'{hour.zfill(2)}:{minutes.zfill(2)}:{seconds.zfill(2)}'
