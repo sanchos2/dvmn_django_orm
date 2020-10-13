@@ -1,7 +1,7 @@
 from django.shortcuts import Http404, render
 
 from .models import Passcard, Visit
-from .models import is_visit_long, format_duration
+from .models import format_duration
 
 
 def passcard_info_view(request, passcode):
@@ -20,7 +20,7 @@ def passcard_info_view(request, passcode):
             {
                 'entered_at': visit.entered_at,
                 'duration': formated_duration,
-                'is_strange': is_visit_long(visit),
+                'is_strange': visit.is_visit_long(),
             }
         )
     context = {
